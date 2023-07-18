@@ -41,9 +41,9 @@ class GalleryState extends FlxState
         add(background);
 
         #if (flixel_addons < "3.0.0")
-	checker = new FlxBackdrop(Paths.image('grid'), 0.2, 0.2, true, true);
+	checker = new FlxBackdrop(Paths.image('ui/grid'), 0.2, 0.2, true, true);
 	#else
-	checker = new FlxBackdrop(Paths.image('grid'));
+	checker = new FlxBackdrop(Paths.image('ui/grid'));
 	#end
         checker.scrollFactor.set(0.07, 0);
         add(checker);
@@ -114,13 +114,13 @@ class GalleryState extends FlxState
         descriptionText.setFormat(null, 25, 0xffffff, "center");
         descriptionText.screenCenter();
         descriptionText.y += 250;
-        descriptionText.setFormat(Paths.font("vcr.ttf"), 32);
+        descriptionText.setFormat(Paths.font("vcr.ttf"), 32, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(descriptionText);
 
         titleText = new FlxText(50, 50, FlxG.width - 100, imageTitle[currentIndex]);
         titleText.screenCenter(X);
         titleText.setFormat(null, 40, 0xffffff, "center");
-        titleText.setFormat(Paths.font("vcr.ttf"), 32);
+        titleText.setFormat(Paths.font("vcr.ttf"), 32, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(titleText);
 
         var controlsTxt:FlxText = new FlxText(5, FlxG.height - 24, 0, "Use LEFT/RIGHT on your keyboard or D-pad to go through the gallery.", 12);
