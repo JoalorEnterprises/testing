@@ -20,7 +20,7 @@ class GalleryState extends FlxState
 
     var currentIndex:Int = 0;
 
-	var checker:FlxBackdrop;
+    var checker:FlxBackdrop;
 
     var background:FlxSprite;
     var imageSprite:FlxSprite;
@@ -41,10 +41,10 @@ class GalleryState extends FlxState
         add(background);
 
         #if (flixel_addons < "3.0.0")
-	    checker = new FlxBackdrop(Paths.image('grid'), 0.2, 0.2, true, true);
-	    #else
-	    checker = new FlxBackdrop(Paths.image('grid'));
-	    #end
+	checker = new FlxBackdrop(Paths.image('grid'), 0.2, 0.2, true, true);
+	#else
+	checker = new FlxBackdrop(Paths.image('grid'));
+	#end
         checker.scrollFactor.set(0.07, 0);
         add(checker);
 
@@ -124,9 +124,9 @@ class GalleryState extends FlxState
         add(titleText);
 
         var controlsTxt:FlxText = new FlxText(5, FlxG.height - 24, 0, "Use LEFT/RIGHT on your keyboard or D-pad to go through the gallery.", 12);
-	    controlsTxt.scrollFactor.set();
-	    controlsTxt.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-	    add(controlsTxt);
+	controlsTxt.scrollFactor.set();
+	controlsTxt.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+	add(controlsTxt);
     }
 
     override public function update(elapsed:Float):Void
@@ -134,7 +134,7 @@ class GalleryState extends FlxState
         super.update(elapsed);
 
         checker.x -= 0.45;
-		checker.y -= 0.16;
+	checker.y -= 0.16;
 
         if (FlxG.keys.justPressed.LEFT)
         {
@@ -232,9 +232,9 @@ class GalleryState extends FlxState
             {
                 FlxG.switchState(new states.MainMenuState());
             }
-	    } else {
+	} else {
             trace("oops! no controller detected!");
             trace("probably bc it isnt connected or you dont have one at all.");
-	    }
+	}
     }
  }
