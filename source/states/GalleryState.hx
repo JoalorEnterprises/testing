@@ -106,7 +106,7 @@ class GalleryState extends FlxState
             "Untitled Lo-fi Song Cover"
         ];
 
-        imageSprite = new FlxSprite(50, 50).loadGraphic(Paths.image("galleryPlaceholder"));
+        imageSprite = new FlxSprite(50, 50).loadGraphic(Paths.image("gallery/arcadiamania"));
         imageSprite.screenCenter();
         add(imageSprite);
 
@@ -149,6 +149,7 @@ class GalleryState extends FlxState
                 imageSprite.loadGraphic(Paths.image(imagePaths[currentIndex]));
             } else {
                 trace('ohno its dont exist');
+                imageSprite.loadGraphic(Paths.image("galleryPlaceholder"));
             }
             imageSprite.screenCenter();
             add(imageSprite);
@@ -169,6 +170,7 @@ class GalleryState extends FlxState
                 imageSprite.loadGraphic(Paths.image(imagePaths[currentIndex]));
             } else {
                 trace('ohno its dont exist');
+                imageSprite.loadGraphic(Paths.image("galleryPlaceholder"));
             }
             imageSprite.screenCenter();
             add(imageSprite);
@@ -178,9 +180,7 @@ class GalleryState extends FlxState
         }
 
         if (FlxG.keys.justPressed.ESCAPE)
-        {
             FlxG.switchState(new states.MainMenuState());
-        }
 
         var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
@@ -200,6 +200,7 @@ class GalleryState extends FlxState
                     imageSprite = new FlxSprite(50, 50).loadGraphic(Paths.image(imagePaths[currentIndex]));
                 } else {
                     trace('ohno its dont exist');
+                    imageSprite.loadGraphic(Paths.image("galleryPlaceholder"));
                 }
                 imageSprite.screenCenter();
                 add(imageSprite);
@@ -220,6 +221,7 @@ class GalleryState extends FlxState
                     imageSprite = new FlxSprite(50, 50).loadGraphic(Paths.image(imagePaths[currentIndex]));
                 } else {
                     trace('ohno its dont exist');
+                    imageSprite.loadGraphic(Paths.image("galleryPlaceholder"));
                 }
                 imageSprite.screenCenter();
                 add(imageSprite);
@@ -229,12 +231,10 @@ class GalleryState extends FlxState
             }
 
             if (gamepad.justPressed.B)
-            {
                 FlxG.switchState(new states.MainMenuState());
-            }
 	} else {
             trace("oops! no controller detected!");
             trace("probably bc it isnt connected or you dont have one at all.");
 	}
     }
- }
+}
