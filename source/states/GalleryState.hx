@@ -1,240 +1,240 @@
 package states;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.FlxSprite;
 import flixel.text.FlxText;
+import flixel.addons.display.FlxBackdrop;
 import flixel.util.FlxColor;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import alphabet.Alphabet;
+import lime.app.Application;
 
 import flixel.input.gamepad.FlxGamepad;
+
+#if sys
+import sys.FileSystem;
+#end
 
 class GalleryState extends FlxState
 {
     public static var gamepad:FlxGamepad;
 
-    var allowInputs:Bool = false;
+    var currentIndex:Int = 0;
 
-    var topText:Alphabet;
-    var text:FlxText;
+	var checker:FlxBackdrop;
 
-    var image:FlxSprite;
-    var leftImage:FlxSprite;
-    var rightImage:FlxSprite;
-    var arrows:FlxTypedGroup<FlxSprite>;
+    var background:FlxSprite;
+    var imageSprite:FlxSprite;
+    var imagePaths:Array<String>;
+    var imageDescriptions:Array<String>;
+    var imageTitle:Array<String>;
 
-    var curSelected:Int = 0;
-    var images:Array<GalleryImage> = [ // first parameter is the image path, second one is the description, third one is the name
-        new GalleryImage('gallery/arcadiamania', 'The cover for Arcadia Mania.', 'Arcadia Mania Cover'),
-        new GalleryImage('gallery/ascension', 'The cover for Ascension.', 'Ascension Cover'),
-        new GalleryImage('gallery/christmaswishes', 'The cover for Christmas Wishes.', 'Christmas Wishes Cover'),
-        new GalleryImage('gallery/creepyolforest', 'The cover for Creepy Ol Forest.', 'Creepy Ol Forest Cover'),
-        new GalleryImage('gallery/dreamylofibeats', 'The cover for Dreamy Lo-fi Beats.', 'Dreamy Lo-fi Beats Cover'),
-        new GalleryImage('gallery/foreverconfusing', 'The cover for Forever Confusing.', 'Forever Confusing Cover'),
-        new GalleryImage('gallery/gamedevelopment', 'The cover for Game Development.', 'Game Development Cover'),
-        new GalleryImage('gallery/gbacliche', 'The cover for GBA Cliche.', 'GBA Cliche Cover'),
-        new GalleryImage('gallery/newera', 'The cover for New Era.', 'New Era Cover'),
-        new GalleryImage('gallery/nighttimegaming', 'The cover for Nighttime Gaming.', 'Nighttime Gaming Cover'),
-        new GalleryImage('gallery/nighttimegamingremix', 'The cover for Nighttime Gaming REMIX.', 'Nighttime Gaming REMIX Cover'),
-        new GalleryImage('gallery/pixelbirthdaybash', 'The cover for Pixel Birthday Bash.', 'Pixel Birthday Bash Cover'),
-        new GalleryImage('gallery/pureindianvibes', 'The cover for Pure Indian Vibes.', 'Pure Indian Vibes Cover'),
-        new GalleryImage('gallery/relaxingeveninglofi', 'The cover for Relaxing Evening Lo-fi.', 'Relaxing Evening Lo-fi Cover'),
-        new GalleryImage('gallery/silvercandy', 'The cover for Silver Candy.', 'Silver Candy Cover'),
-        new GalleryImage('gallery/untitledlofisong', 'The cover for Untitled Lo-fi Song.', 'Untitled Lo-fi Song Cover')
-    ];
+    var descriptionText:FlxText;
+    var titleText:FlxText;
 
-    override function create()
+    override public function create():Void
     {
         super.create();
 
-        var bg:FlxSprite =  new FlxSprite(-686,0).loadGraphic(Paths.image('menuBG'));
-        bg.antialiasing = true;
-        add(bg);
+        background = new FlxSprite(0, 0).loadGraphic(Paths.image("menuBG"));
+        background.setGraphicSize(Std.int(background.width * 1));
+        background.screenCenter();
+        add(background);
 
-        leftImage = new FlxSprite(0,0).loadGraphic(Paths.image('galleryPlaceholder'));
-        leftImage.antialiasing = true;
-        add(leftImage);
+        #if (flixel_addons < "3.0.0")
+	    checker = new FlxBackdrop(Paths.image('grid'), 0.2, 0.2, true, true);
+	    #else
+	    checker = new FlxBackdrop(Paths.image('grid'));
+	    #end
+        checker.scrollFactor.set(0.07, 0);
+        add(checker);
 
-        var slash:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.image('gallerySlash'));
-        slash.alpha = 0.65;
-        slash.antialiasing = true;
-        add(slash);
+        imagePaths = [
+            "gallery/arcadiamania", 
+            "gallery/ascension", 
+            "gallery/christmaswishes", 
+            "gallery/creepyolforest", 
+            "gallery/dreamylofibeats", 
+            "gallery/foreverconfusing", 
+            "gallery/gamedevelopment", 
+            "gallery/gbacliche", 
+            "gallery/newera", 
+            "gallery/nighttimegaming", 
+            "gallery/nighttimegamingremix", 
+            "gallery/pixelbirthdaybash", 
+            "gallery/pureindianvibes", 
+            "gallery/relaxingeveninglofi", 
+            "gallery/silvercandy", 
+            "gallery/universalquestioning", 
+            "gallery/untitledlofisong"
+        ];
+        imageDescriptions = [
+            "The cover for Arcadia Mania.", 
+            "The cover for Ascension.", 
+            "The cover for Christmas Wishes.", 
+            "The cover for Creepy Ol Forest.", 
+            "The cover for Dreamy Lo-fi Beats.", 
+            "The cover for Forever Confusing.", 
+            "The cover for Game Development.", 
+            "The cover for GBA Cliche.", 
+            "The cover for New Era.", 
+            "The cover for Nighttime Gaming.", 
+            "The cover for Nighttime Gaming REMIX.", 
+            "The cover for Pixel Birthday Bash.", 
+            "The cover for Pure Indian Vibes.", 
+            "The cover for Relaxing Evening Lo-fi.", 
+            "The cover for Silver Candy.", 
+            "The cover for Universal Questioning.", 
+            "The cover for Unitled Lo-fi Song."
+        ];
+        imageTitle = [
+            "Arcadia Mania Cover", 
+            "Ascension Cover", 
+            "Christmas Wishes Cover", 
+            "Creepy Ol Forest Cover", 
+            "Dreamy Lo-fi Beats Cover", 
+            "Forever Confusing Cover", 
+            "Game Development Cover", 
+            "GBA Cliche Cover", 
+            "New Era Cover", 
+            "Nighttime Gaming Cover", 
+            "Nighttime Gaming REMIX Cover", 
+            "Pixel Birthday Bash Cover", 
+            "Pure Indian Vibes Cover", 
+            "Relaxing Evening Lo-fi Cover", 
+            "Silver Candy Cover", 
+            "Universal Questioning Cover", 
+            "Untitled Lo-fi Song Cover"
+        ];
 
-        topText = new Alphabet(0, 0, images[0].name, true);
-        add(topText);
+        imageSprite = new FlxSprite(50, 50).loadGraphic(Paths.image("galleryPlaceholder"));
+        imageSprite.screenCenter();
+        add(imageSprite);
 
-        text = new FlxText(10, 156, Std.int(slash.width - 85), images[0].description, 12);
-        text.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, LEFT);
-        add(text);
+        descriptionText = new FlxText(50, -100, FlxG.width - 100, imageDescriptions[currentIndex]);
+        descriptionText.setFormat(null, 25, 0xffffff, "center");
+        descriptionText.screenCenter();
+        descriptionText.y += 250;
+        descriptionText.setFormat(Paths.font("vcr.ttf"), 32);
+        add(descriptionText);
 
-        image = new FlxSprite(0,0).loadGraphic(Paths.image('galleryPlaceholder'));
-        image.antialiasing = true;
-        add(image);
+        titleText = new FlxText(50, 50, FlxG.width - 100, imageTitle[currentIndex]);
+        titleText.screenCenter(X);
+        titleText.setFormat(null, 40, 0xffffff, "center");
+        titleText.setFormat(Paths.font("vcr.ttf"), 32);
+        add(titleText);
 
-        rightImage = new FlxSprite(0,0).loadGraphic(Paths.image('galleryPlaceholder'));
-        rightImage.antialiasing = true;
-        rightImage.alpha = 0.5;
-        add(rightImage);
-
-        arrows = new FlxTypedGroup<FlxSprite>();
-        add(arrows);
-        for(i in 0...2)
-        {
-            var arrow:FlxSprite = new FlxSprite(0, 0);
-            arrow.frames = Paths.getSparrowAtlas('ui/notes');
-            if(i == 0) {
-                arrow.animation.addByPrefix('idle', 'arrowLEFT');
-                arrow.animation.addByPrefix('pressed', 'left press', 24, false);
-                arrow.animation.addByPrefix('confirm', 'left confirm', 24, false);
-            } else {
-                arrow.animation.addByPrefix('idle', 'arrowRIGHT');
-                arrow.animation.addByPrefix('pressed', 'right press', 24, false);
-                arrow.animation.addByPrefix('confirm', 'right confirm', 24, false);                
-            }
-            arrow.animation.play('idle');
-            arrow.setGraphicSize(Std.int(arrow.width * 0.7));
-            arrow.updateHitbox();
-            arrow.setPosition(Std.int(FlxG.width / 2) + (i == 0 ? -50 + -290 : 60 + 290), FlxG.height * 0.60);
-            arrow.antialiasing = true;
-            arrows.add(arrow);
-            arrow.animation.finishCallback = function(t) {
-                if(arrow.animation.curAnim.name == 'confirm')
-                {
-                    arrow.animation.play('idle');
-                    arrow.centerOffsets();
-                }
-            }
-        }
-        changeSelection();
+        var controlsTxt:FlxText = new FlxText(5, FlxG.height - 24, 0, "Use LEFT/RIGHT on your keyboard or D-pad to go through the gallery.", 12);
+	    controlsTxt.scrollFactor.set();
+	    controlsTxt.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+	    add(controlsTxt);
     }
 
-    override function update(elapsed:Float)
+    override public function update(elapsed:Float):Void
     {
         super.update(elapsed);
 
-        if (allowInputs) 
+        checker.x -= 0.45;
+		checker.y -= 0.16;
+
+        if (FlxG.keys.justPressed.LEFT)
         {
-            if(FlxG.keys.justPressed.RIGHT || FlxG.keys.justPressed.LEFT)
-                changeSelection(FlxG.keys.justPressed.RIGHT ? 1 : -1);
-            
-            if(FlxG.keys.justPressed.ESCAPE) 
-                FlxG.switchState(new MainMenuState());
+            currentIndex--;
+            if (currentIndex < 0)
+            {
+                currentIndex = imagePaths.length - 1;
+            }
 
-            var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+            remove(imageSprite);
+            if(FileSystem.exists(Paths.image(imagePaths[currentIndex]))) {
+                imageSprite.loadGraphic(Paths.image(imagePaths[currentIndex]));
+            } else {
+                trace('ohno its dont exist');
+            }
+            imageSprite.screenCenter();
+            add(imageSprite);
 
-            if (gamepad != null) {
-                trace("controller detected! :D");
+            descriptionText.text = imageDescriptions[currentIndex];
+            titleText.text = imageTitle[currentIndex];
+        }
+        else if (FlxG.keys.justPressed.RIGHT)
+        {
+            currentIndex++;
+            if (currentIndex >= imagePaths.length)
+            {
+                currentIndex = 0;
+            }
 
-                if (gamepad.justPressed.DPAD_RIGHT || gamepad.justPressed.DPAD_LEFT) 
-                    changeSelection(gamepad.justPressed.DPAD_RIGHT ? 1 : -1);
+            remove(imageSprite);
+            if(FileSystem.exists(Paths.image(imagePaths[currentIndex]))) {
+                imageSprite.loadGraphic(Paths.image(imagePaths[currentIndex]));
+            } else {
+                trace('ohno its dont exist');
+            }
+            imageSprite.screenCenter();
+            add(imageSprite);
 
-                if (gamepad.justPressed.B)
-                    FlxG.switchState(new states.MainMenuState());
+            descriptionText.text = imageDescriptions[currentIndex];
+            titleText.text = imageTitle[currentIndex];
+        }
+
+        if (FlxG.keys.justPressed.ESCAPE)
+        {
+            FlxG.switchState(new states.MainMenuState());
+        }
+
+        var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+
+        if (gamepad != null) {
+            trace("controller detected! :D");
+
+            if (gamepad.justPressed.DPAD_LEFT)
+            {
+                currentIndex--;
+                if (currentIndex < 0)
+                {
+                    currentIndex = imagePaths.length - 1;
+                }
+
+                remove(imageSprite);
+                if(FileSystem.exists(Paths.image(imagePaths[currentIndex]))) {
+                    imageSprite = new FlxSprite(50, 50).loadGraphic(Paths.image(imagePaths[currentIndex]));
+                } else {
+                    trace('ohno its dont exist');
+                }
+                imageSprite.screenCenter();
+                add(imageSprite);
+
+                descriptionText.text = imageDescriptions[currentIndex];
+                titleText.text = imageTitle[currentIndex];
+            }
+            else if (gamepad.justPressed.DPAD_RIGHT)
+            {
+                currentIndex++;
+                if (currentIndex >= imagePaths.length)
+                {
+                    currentIndex = 0;
+                }
+
+                remove(imageSprite);
+                if(FileSystem.exists(Paths.image(imagePaths[currentIndex]))) {
+                    imageSprite = new FlxSprite(50, 50).loadGraphic(Paths.image(imagePaths[currentIndex]));
+                } else {
+                    trace('ohno its dont exist');
+                }
+                imageSprite.screenCenter();
+                add(imageSprite);
+
+                descriptionText.text = imageDescriptions[currentIndex];
+                titleText.text = imageTitle[currentIndex];
+            }
+
+            if (gamepad.justPressed.B)
+            {
+                FlxG.switchState(new states.MainMenuState());
+            }
 	    } else {
-                trace("oops! no controller detected!");
-                trace("probably bc it isnt connected or you dont have one at all.");
+            trace("oops! no controller detected!");
+            trace("probably bc it isnt connected or you dont have one at all.");
 	    }
-        }
     }
-
-    function changeSelection(change:Int = 0)
-    {
-        curSelected += change;
-        if(curSelected >= images.length)
-            curSelected = 0;
-        else if(curSelected < 0)
-            curSelected = images.length - 1;
-
-        if(change == 1)
-        {
-            arrows.members[1].animation.play('confirm');
-            arrows.members[1].centerOffsets();
-            arrows.members[1].offset.x -= 13;
-            arrows.members[1].offset.y -= 13;
-        }
-        else if(change == -1)
-        {
-            arrows.members[0].animation.play('confirm');
-            arrows.members[0].centerOffsets();
-            arrows.members[0].offset.x -= 13;
-            arrows.members[0].offset.y -= 13;
-        }
-
-        allowInputs = false;
-
-        image.loadGraphic(Paths.image(images[curSelected].path));
-        image.scale.x = 1;
-        image.scale.y = 1;
-        while(image.width > 450)
-        {
-            image.scale.x -= 0.05;
-            image.scale.y -= 0.05;
-            image.updateHitbox();
-        }
-        image.updateHitbox();
-        image.screenCenter();
-        image.x += 60;
-        image.y -= 60;
-        image.alpha = 0;
-        FlxTween.tween(image, {y: image.y + 60, alpha: 1}, 0.12, {onComplete:function(twn:FlxTween){
-            allowInputs = true;
-        }});
-
-        if(curSelected != images.length - 1) {
-            rightImage.visible = true;
-            rightImage.loadGraphic(Paths.image(images[curSelected + 1].path));
-            rightImage.scale.x = 1;
-            rightImage.scale.y = 1;
-            rightImage.updateHitbox();
-            while(rightImage.width > 240)
-            {
-                rightImage.scale.x -= 0.05;
-                rightImage.scale.y -= 0.05;
-                rightImage.updateHitbox();
-            }
-            rightImage.updateHitbox();
-            rightImage.screenCenter();
-            rightImage.x = image.x + image.width + 30;
-        } else {
-            rightImage.visible = false;
-        }
-
-        if(curSelected != 0) {
-            leftImage.visible = true;
-            leftImage.loadGraphic(Paths.image(images[curSelected - 1].path));
-            leftImage.scale.x = 1;
-            leftImage.scale.y = 1;
-            leftImage.updateHitbox();
-            while(leftImage.width > 240)
-            {
-                leftImage.scale.x -= 0.05;
-                leftImage.scale.y -= 0.05;
-                leftImage.updateHitbox();
-            }
-            leftImage.updateHitbox();
-            leftImage.screenCenter();
-            leftImage.x = image.x - leftImage.width - 30;
-        } else {
-            leftImage.visible = false;
-        }
-        text.text = images[curSelected].description;
-        topText.text = images[curSelected].name;
-    }
-}
-
-class GalleryImage
-{
-    public var path:String;
-    public var description:String;
-    public var name:String;
-
-    public function new(img:String, dsc:String, ?Name:String)
-    {
-        path = img;
-        description = dsc;
-        name = Name;
-    }
-}
+ }
