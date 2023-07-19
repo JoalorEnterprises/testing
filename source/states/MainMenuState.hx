@@ -78,9 +78,9 @@ class MainMenuState extends FlxState
 		bg.antialiasing = true;
 		add(bg);
 
-		var header:Alphabet = new Alphabet(0, 0, 'BandLab Radio Player', true);
-		header.scrollFactor.set();
-		header.screenCenter(Y);
+		var header:Alphabet = new Alphabet(0, grpOptions.y - 55, 'BandLab Radio Player', true);
+		header.scrollFactor.set(0, Math.max(0.25 - (0.05 * (options.length - 4))));
+		header.screenCenter(X);
         add(header);
 		
 		initOptions();
