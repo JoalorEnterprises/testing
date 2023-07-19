@@ -61,7 +61,6 @@ class MainMenuState extends FlxState
 	override function create() 
 	{
 		camMain = new FlxCamera();
-
 		FlxG.cameras.reset(camMain);
 		FlxG.cameras.setDefaultDrawTarget(camMain, true);
 
@@ -80,6 +79,7 @@ class MainMenuState extends FlxState
 		add(bg);
 
 		var header:Alphabet = new Alphabet(0, 0, 'BandLab Radio Player', true);
+		header.scrollFactor.set();
 		header.screenCenter(Y);
         add(header);
 		
