@@ -13,7 +13,6 @@ import flixel.FlxCamera;
 import flixel.FlxObject;
 
 import lime.app.Application;
-
 import alphabet.Alphabet;
 import base.CoolUtil;
 
@@ -73,13 +72,16 @@ class MainMenuState extends FlxState
 		FlxG.camera.follow(camFollowPos, null, 1);
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (options.length - 4)), 0.1);
-		
 		bg = new FlxSprite().loadGraphic(Paths.image('titleBG'));
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.scrollFactor.set(0, yScroll / 3);
 		bg.antialiasing = true;
 		add(bg);
+
+		var header:Alphabet = new Alphabet(0, 0, 'BandLab Radio Player', true);
+		header.screenCenter(Y);
+        add(header);
 		
 		initOptions();
 
@@ -133,7 +135,7 @@ class MainMenuState extends FlxState
 			FlxG.sound.play(Paths.sound('selection'));
 			grpOptions.forEach(function(grpOptions:Alphabet)
 			{
-				FlxFlicker.flicker(grpOptions, 1, 0.06, false, false, function(flick:FlxFlicker)
+				FlxFlicker.flicker(grpOptions, 2, 0.06, false, false, function(flick:FlxFlicker)
 				{
 					openSelectedSubstate(options[curSelected]);
 				});
@@ -153,7 +155,7 @@ class MainMenuState extends FlxState
                 		FlxG.sound.play(Paths.sound('selection'));
 				grpOptions.forEach(function(grpOptions:Alphabet)
 				{
-					FlxFlicker.flicker(grpOptions, 1, 0.06, false, false, function(flick:FlxFlicker)
+					FlxFlicker.flicker(grpOptions, 2, 0.06, false, false, function(flick:FlxFlicker)
 					{
 						openSelectedSubstate(options[curSelected]);
 					});
@@ -173,7 +175,6 @@ class MainMenuState extends FlxState
 			curSelected = 0;
 
 		var bullShit:Int = 0;
-
 		for (item in grpOptions.members) {
 			item.targetY = bullShit - curSelected;
 			bullShit++;
@@ -192,8 +193,7 @@ class MainMenuState extends FlxState
 	}
 
 	function quitGame() {
-	    FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function()
-	    {
+	    FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
 		    Sys.exit(0);
 	    }, false);
 	}
