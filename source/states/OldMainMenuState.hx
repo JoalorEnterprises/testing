@@ -9,7 +9,7 @@ import lime.app.Application;
 
 class OldMainMenuState extends Menu
 {
-	public static var gameVersion:String = '1.2.0b-git';
+	public static var gameVer:String = '1.2.0b';
 	var bg:FlxSprite;
 
 	override public function create()
@@ -57,7 +57,7 @@ class OldMainMenuState extends Menu
 			}
 		}
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 24, 0, "BRP v" + gameVersion, 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 24, 0, "BRP v" + gameVer, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);

@@ -32,7 +32,7 @@ class MainMenuState extends FlxState
 	private static var curSelected:Int = 0;
 
 	public static var gamepad:FlxGamepad;
-	public static var gameVersion:String = '1.2.0b-git';
+	public static var gameVersion:String = '1.2.0b';
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
@@ -61,6 +61,7 @@ class MainMenuState extends FlxState
 	override function create() 
 	{
 		camMain = new FlxCamera();
+
 		FlxG.cameras.reset(camMain);
 		FlxG.cameras.setDefaultDrawTarget(camMain, true);
 
@@ -81,7 +82,7 @@ class MainMenuState extends FlxState
 		var header:Alphabet = new Alphabet(0, -55, 'BandLab Radio Player', true);
 		header.scrollFactor.set(0, Math.max(0.25 - (0.05 * (options.length - 4)), 0.1));
 		header.screenCenter(X);
-        add(header);
+        	add(header);
 		
 		initOptions();
 
@@ -142,6 +143,10 @@ class MainMenuState extends FlxState
 			});
 		}
 
+		if (FlxG.keys.justPressed.O) {
+			FlxG.switchState(new OldMainMenuState());
+		}
+
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
         	if (gamepad != null) {
@@ -161,6 +166,10 @@ class MainMenuState extends FlxState
 					});
 				});
             		}
+
+					if (gamepad.justPressed.Y) {
+						FlxG.switchState(new OldMainMenuState());
+					}
 		} else {
             		trace("oops! no controller detected!");
             		trace("probably bc it isnt connected or you dont have one at all.");
@@ -175,6 +184,7 @@ class MainMenuState extends FlxState
 			curSelected = 0;
 
 		var bullShit:Int = 0;
+
 		for (item in grpOptions.members) {
 			item.targetY = bullShit - curSelected;
 			bullShit++;

@@ -66,7 +66,7 @@ class CreditsState extends FlxState
 			initCreditlist = "Joalor64 YT:Main Programmer\n
 			JonnycatMeow:libX11 for MacOS\n
 			thepercentageguy:Menu Code\n
-			zacksgamerz:Friday Night Fever Jukebox and Gallery Code\n
+			zacksgamerz:Friday Night Fever Jukebox Code\n
 			Stilic:NativeUtil\n
 			Gidk-g:Literally One Useful PR".trim()
 				.split('\n');

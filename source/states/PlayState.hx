@@ -97,6 +97,11 @@ class PlayState extends FlxState
 	    changeSong(FlxG.keys.justPressed.LEFT ? -1 : 1);
         }
 
+        if (FlxG.keys.justPressed.R) 
+        {
+            FlxG.resetState();
+        }
+
         if (FlxG.keys.justPressed.ESCAPE) 
         {
             FlxG.switchState(new states.MainMenuState());
@@ -129,6 +134,11 @@ class PlayState extends FlxState
             {
                 FlxG.sound.play(Paths.sound('switchbtn'));
                 changeSong(gamepad.justPressed.DPAD_LEFT ? -1 : 1);
+            }
+
+            if (gamepad.justPressed.RIGHT_TRIGGER) 
+            {
+                FlxG.resetState();
             }
 
             if (gamepad.justPressed.B)

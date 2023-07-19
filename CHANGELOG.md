@@ -16,3 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 * Some formatting + Small code fixes
 * Edited some of the discs
+
+## [1.2.0b] - 2023-7-19
+### Added
+* Reset control in `PlayState.hx` in case the music doesn't play
+* * (R on keyboard, Right Trigger on controller)
+
+### Removed
+* Useless stuff from `Conductor.hx`
+* `flixel-ui` and `flixel-tools` because they weren't used
+
+### Changed
+* Rewritten Gallery
+* Rewritten Main Menu (Based off Psych Engine's options menu)
+* * (You can access the old menu by pressing O on your keyboard, or Y on your controller)
