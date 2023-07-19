@@ -32,7 +32,7 @@ class MainMenuState extends FlxState
 	private static var curSelected:Int = 0;
 
 	public static var gamepad:FlxGamepad;
-	public static var gameVersion:String = '1.1.0';
+	public static var gameVersion:String = '1.2.0b-git';
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
@@ -78,9 +78,9 @@ class MainMenuState extends FlxState
 		bg.antialiasing = true;
 		add(bg);
 
-		var header:Alphabet = new Alphabet(0, 0, 'BandLab Radio Player', true);
+		var header:Alphabet = new Alphabet(0, options.y - 55, 'BandLab Radio Player', true);
 		header.scrollFactor.set(0, Math.max(0.25 - (0.05 * (options.length - 4)), 0.1));
-		header.screenCenter(Y);
+		header.screenCenter(X);
         add(header);
 		
 		initOptions();
