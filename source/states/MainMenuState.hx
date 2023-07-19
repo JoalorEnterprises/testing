@@ -167,9 +167,9 @@ class MainMenuState extends FlxState
 				});
             		}
 
-					if (gamepad.justPressed.Y) {
-						FlxG.switchState(new OldMainMenuState());
-					}
+			if (gamepad.justPressed.Y) {
+				FlxG.switchState(new OldMainMenuState());
+			}
 		} else {
             		trace("oops! no controller detected!");
             		trace("probably bc it isnt connected or you dont have one at all.");
