@@ -1,4 +1,4 @@
-package state;
+package states;
 
 import flixel.FlxG;
 import flixel.FlxState;
@@ -13,6 +13,7 @@ import flixel.FlxCamera;
 import flixel.FlxObject;
 
 import lime.app.Application;
+
 import alphabet.Alphabet;
 import base.CoolUtil;
 
@@ -141,15 +142,15 @@ class MainMenuState extends FlxState
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
-        if (gamepad != null) {
-            trace("controller detected! :D");
+        	if (gamepad != null) {
+            		trace("controller detected! :D");
 
-            if (gamepad.justPressed.DPAD_UP || gamepad.justPressed.DPAD_DOWN) {
-                changeSelection(gamepad.justPressed.DPAD_UP ? -1 : 1);
-            }
+            		if (gamepad.justPressed.DPAD_UP || gamepad.justPressed.DPAD_DOWN) {
+                		changeSelection(gamepad.justPressed.DPAD_UP ? -1 : 1);
+            		}
 
-            if (gamepad.justPressed.A) {
-                FlxG.sound.play(Paths.sound('selection'));
+            		if (gamepad.justPressed.A) {
+                		FlxG.sound.play(Paths.sound('selection'));
 				grpOptions.forEach(function(grpOptions:Alphabet)
 				{
 					FlxFlicker.flicker(grpOptions, 1, 0.06, false, false, function(flick:FlxFlicker)
@@ -157,10 +158,10 @@ class MainMenuState extends FlxState
 						openSelectedSubstate(options[curSelected]);
 					});
 				});
-            }
+            		}
 		} else {
-            trace("oops! no controller detected!");
-            trace("probably bc it isnt connected or you dont have one at all.");
+            		trace("oops! no controller detected!");
+            		trace("probably bc it isnt connected or you dont have one at all.");
 		}
 	}
 	
@@ -191,7 +192,7 @@ class MainMenuState extends FlxState
 	}
 
 	function quitGame() {
-		FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function()
+	    FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function()
 	    {
 		    Sys.exit(0);
 	    }, false);
