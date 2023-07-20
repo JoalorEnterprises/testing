@@ -14,6 +14,7 @@ import flixel.FlxObject;
 
 import lime.app.Application;
 import alphabet.Alphabet;
+import base.ClientPrefs;
 import base.CoolUtil;
 
 using StringTools;
@@ -25,6 +26,7 @@ class MainMenuState extends FlxState
 		'Instructions', 
 		'Gallery',
 		'Credits',
+		'Options',
 		'Exit'
 	];
 
@@ -44,6 +46,8 @@ class MainMenuState extends FlxState
 				FlxG.switchState(new states.GalleryState());
 			case 'Credits':
 				FlxG.switchState(new states.CreditsState());
+			case 'Options':
+				openSubState(new substates.OptionsSubState());
 			case 'Exit':
 				quitGame();
 		}
@@ -117,6 +121,15 @@ class MainMenuState extends FlxState
 		}
 	}
 
+	override function openSubState(subState:FlxSubState) {
+		super.openSubState(subState);
+	}
+
+	override function closeSubState() {
+		super.closeSubState();
+		ClientPrefs.saveSettings();
+	}
+
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
@@ -143,10 +156,6 @@ class MainMenuState extends FlxState
 			});
 		}
 
-		if (FlxG.keys.justPressed.O) {
-			FlxG.switchState(new OldMainMenuState());
-		}
-
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
         	if (gamepad != null) {
@@ -166,10 +175,6 @@ class MainMenuState extends FlxState
 					});
 				});
             		}
-
-			if (gamepad.justPressed.Y) {
-				FlxG.switchState(new OldMainMenuState());
-			}
 		} else {
             		trace("oops! no controller detected!");
             		trace("probably bc it isnt connected or you dont have one at all.");

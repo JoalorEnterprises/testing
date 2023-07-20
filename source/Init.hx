@@ -5,6 +5,7 @@ import flixel.FlxState;
 import lime.app.Application;
 import states.MainMenuState;
 import states.OutdatedState;
+import base.ClientPrefs;
 
 using StringTools;
 
@@ -16,7 +17,9 @@ class Init extends FlxState
 
     override function create() 
     {
-        #if desktop
+		ClientPrefs.loadPrefs();
+		
+        #if (desktop && ClientPrefs.checkForUpdates)
 	trace('checking for updates...');
 	var http = new haxe.Http("https://raw.githubusercontent.com/Joalor64GH/BandLab-Radio-Player/main/embed/gitVersion.txt");
 
@@ -40,10 +43,13 @@ class Init extends FlxState
 	http.request();
 	#end
 
-        if (mustUpdate) {
+        if (mustUpdate && ClientPrefs.checkForUpdates) {
             FlxG.switchState(new OutdatedState());
         } else {
-            FlxG.switchState(new MainMenuState());
+			if (ClientPrefs.oldMenu)
+				FlxG.switchState(new OldMainMenuState());
+			else
+            	FlxG.switchState(new MainMenuState());
         }
         super.create();
     }

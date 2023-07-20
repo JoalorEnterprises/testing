@@ -24,6 +24,7 @@ class OldMainMenuState extends Menu
 			'Instructions', 
 			'Gallery',
 			'Credits',
+			'Options'
 			'Exit'
 		];
 		Menu.includeExitBtn = false;
@@ -46,6 +47,9 @@ class OldMainMenuState extends Menu
 					trace('Credits');
 					FlxG.switchState(new states.CreditsState());
 				case 4:
+					trace('Options')
+					openSubState(new substates.OptionsSubState());
+				case 5:
 					trace('Exit');
 					#if sys
 					Sys.exit(0);
