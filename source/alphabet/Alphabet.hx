@@ -331,7 +331,7 @@ class AlphaCharacter extends FlxSprite
 		'|'  => null,
 		'~'  => {offsets: [0, 16]},
 		'ª'  => {offsets: [0, 30]},
-		'º'  => {offsets: [0, 30]}
+		'º'  => {offsets: [0, 30]},
 
 		//Russian alphabet(Русский алфавит)
 		'а' => null, 'б' => null, 'в' => null, 'г' => null, 'д' => null, 'е' => null,
