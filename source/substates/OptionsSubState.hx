@@ -2,6 +2,7 @@ package substates;
 
 import flixel.FlxG;
 
+import options.Option;
 import options.OptionsMenu;
 
 using StringTools;

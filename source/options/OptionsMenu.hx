@@ -20,10 +20,12 @@ class OptionsMenu extends FlxSubState
 {
 	private var curOption:Option = null;
 	private var curSelected:Int = 0;
+
 	private var optionsArray:Array<Option>;
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var checkboxGroup:FlxTypedGroup<Checkbox>;
 	private var grpTexts:FlxTypedGroup<AttachedText>;
+	
 	private var descBox:FlxSprite;
 	private var descText:FlxText;
 
@@ -60,12 +62,6 @@ class OptionsMenu extends FlxSubState
 		descBox.alpha = 0.6;
 		add(descBox);
 
-		var titleText:Alphabet = new Alphabet(75, 40, title, true);
-		titleText.scaleX = 0.6;
-		titleText.scaleY = 0.6;
-		titleText.alpha = 0.4;
-		add(titleText);
-
 		descText = new FlxText(50, 600, 1180, "", 32);
 		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		descText.scrollFactor.set();
@@ -95,10 +91,6 @@ class OptionsMenu extends FlxSubState
 				optionsArray[i].setChild(valueText);
 			}
 
-			if(optionsArray[i].showBoyfriend && boyfriend == null)
-			{
-				reloadBoyfriend();
-			}
 			updateTextFrom(optionsArray[i]);
 		}
 
@@ -121,11 +113,11 @@ class OptionsMenu extends FlxSubState
 		checker.x -= 0.45;
 	checker.y -= 0.16;
 
-		if (FlxG.key.justPressed.UP || FlxG.key.justPressed.DOWN) {
-			changeSelection(FlxG.key.justPressed.UP ? -1 : 1);
+		if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN) {
+			changeSelection(FlxG.keys.justPressed.UP ? -1 : 1);
 		}
 
-		if (FlxG.key.justPressed.ESCAPE) {
+		if (FlxG.keys.justPressed.ESCAPE) {
 			closeState();
 		}
 
@@ -139,20 +131,20 @@ class OptionsMenu extends FlxSubState
 
 			if(usesCheckbox)
 			{
-				if(FlxG.key.justPressed.ENTER)
+				if(FlxG.keys.justPressed.ENTER)
 				{
 					curOption.setValue((curOption.getValue() == true) ? false : true);
 					curOption.change();
 					reloadCheckboxes();
 				}
 			} else {
-				if(FlxG.key.justPressed.LEFT || FlxG.key.justPressed.RIGHT) {
-					var pressed = (FlxG.key.justPressed.LEFT || FlxG.key.justPressed.RIGHT);
+				if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT) {
+					var pressed = (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT);
 					if(holdTime > 0.5 || pressed) {
 						if(pressed) {
 							var add:Dynamic = null;
 							if(curOption.type != 'string') {
-								add = FlxG.key.justPressed.LEFT ? -curOption.changeValue : curOption.changeValue;
+								add = FlxG.keys.justPressed.LEFT ? -curOption.changeValue : curOption.changeValue;
 							}
 
 							switch(curOption.type)
@@ -175,7 +167,7 @@ class OptionsMenu extends FlxSubState
 
 								case 'string':
 									var num:Int = curOption.curOption; //lol
-									if(FlxG.key.justPressed.LEFT) --num;
+									if(FlxG.keys.justPressed.LEFT) --num;
 									else num++;
 
 									if(num < 0) {
@@ -190,7 +182,7 @@ class OptionsMenu extends FlxSubState
 							updateTextFrom(curOption);
 							curOption.change();
 						} else if(curOption.type != 'string') {
-							holdValue += curOption.scrollSpeed * elapsed * (controls.UI_LEFT ? -1 : 1);
+							holdValue += curOption.scrollSpeed * elapsed * (FlxG.keys.justPressed.LEFT ? -1 : 1);
 							if(holdValue < curOption.minValue) holdValue = curOption.minValue;
 							else if (holdValue > curOption.maxValue) holdValue = curOption.maxValue;
 
@@ -210,12 +202,12 @@ class OptionsMenu extends FlxSubState
 					if(curOption.type != 'string') {
 						holdTime += elapsed;
 					}
-				} else if(FlxG.key.justPressed.LEFT || FlxG.key.justPressed.RIGHT) {
+				} else if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT) {
 					clearHold();
 				}
 			}
 
-			if(controls.RESET)
+			if(FlxG.keys.justPressed.R)
 			{
 				for (i in 0...optionsArray.length)
 				{
