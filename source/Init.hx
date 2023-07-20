@@ -1,8 +1,10 @@
 package;
 
+import haxe.Http;
 import flixel.FlxG;
 import flixel.FlxState;
 import lime.app.Application;
+import states.OldMainMenuState;
 import states.MainMenuState;
 import states.OutdatedState;
 import base.ClientPrefs;
@@ -21,7 +23,7 @@ class Init extends FlxState
 		
         #if (desktop && ClientPrefs.checkForUpdates)
 	trace('checking for updates...');
-	var http = new haxe.Http("https://raw.githubusercontent.com/Joalor64GH/BandLab-Radio-Player/main/embed/gitVersion.txt");
+	var http = new Http("https://raw.githubusercontent.com/Joalor64GH/BandLab-Radio-Player/main/embed/gitVersion.txt");
 
 	http.onData = function(data:String) 
 	{
