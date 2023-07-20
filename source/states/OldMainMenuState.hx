@@ -47,7 +47,7 @@ class OldMainMenuState extends Menu
 					trace('Credits');
 					FlxG.switchState(new states.CreditsState());
 				case 4:
-					trace('Options')
+					trace('Options');
 					openSubState(new substates.OptionsSubState());
 				case 5:
 					trace('Exit');
