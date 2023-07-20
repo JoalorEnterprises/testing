@@ -16,7 +16,7 @@ import options.Option;
 
 using StringTools;
 
-class BaseOptionsMenu extends FlxSubState
+class OptionsMenu extends FlxSubState
 {
 	private var curOption:Option = null;
 	private var curSelected:Int = 0;
