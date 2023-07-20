@@ -37,7 +37,7 @@ class OptionsSubState extends OptionsMenu
 			'lang',
 			'string',
 			'en-US',
-			['en-US', 'es-ES', 'fr-FR', 'it-IT', 'ko-KR', 'pt-PT', 'pt-BR', 'ru-RU']);
+			['en-US', 'es-ES', 'fr-FR', 'it-IT', 'pt-PT', 'pt-BR', 'ru-RU']);
 		addOption(option);
 
 		super();
