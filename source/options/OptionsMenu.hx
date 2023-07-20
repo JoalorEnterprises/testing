@@ -58,19 +58,19 @@ class OptionsMenu extends FlxSubState
 		checkboxGroup = new FlxTypedGroup<Checkbox>();
 		add(checkboxGroup);
 
-		descBox = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+		descBox = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
 		descBox.alpha = 0.6;
 		add(descBox);
 
-		descText = new FlxText(50, 600, 1180, "", 32);
-		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		var size:Int = 16;
+		descText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, "", size);
+		descText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		descText.scrollFactor.set();
-		descText.borderSize = 2.4;
 		add(descText);
 
 		for (i in 0...optionsArray.length)
 		{
-			var optionText:Alphabet = new Alphabet(290, 260, optionsArray[i].name, false);
+			var optionText:Alphabet = new Alphabet(90, 320, optionsArray[i].name, false);
 			optionText.isMenuItem = true;
 			optionText.targetY = i;
 			grpOptions.add(optionText);

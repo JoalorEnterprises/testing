@@ -12,13 +12,11 @@ class ClientPrefs
 	public static var flashing:Bool = true;
 	public static var checkForUpdates:Bool = true;
 	public static var oldMenu:Bool = false;
-	public static var lang:String = 'en-US';
 
 	public static function saveSettings() {
 		FlxG.save.data.flashing = flashing;
 		FlxG.save.data.checkForUpdates = checkForUpdates;
 		FlxG.save.data.oldMenu = oldMenu;
-		FlxG.save.data.lang = lang;
 	
 		FlxG.save.flush();
 	}
@@ -32,9 +30,6 @@ class ClientPrefs
 		}
 		if(FlxG.save.data.oldMenu != null) {
 			oldMenu = FlxG.save.data.oldMenu;
-		}
-		if(FlxG.save.data.lang != null) {
-			lang = FlxG.save.data.lang;
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package substates;
 
 import flixel.FlxG;
-
 import options.Option;
 import options.OptionsMenu;
 
@@ -30,14 +29,6 @@ class OptionsSubState extends OptionsMenu
 			'oldMenu',
 			'bool',
 			false);
-		addOption(option);
-
-		var option:Option = new Option('Game Language:',
-			"What should the game language be?",
-			'lang',
-			'string',
-			'en-US',
-			['en-US', 'es-ES', 'fr-FR', 'it-IT', 'pt-BR', 'pt-PT', 'ru-RU']);
 		addOption(option);
 
 		super();

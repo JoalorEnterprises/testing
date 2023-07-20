@@ -14,6 +14,7 @@ import flixel.FlxCamera;
 import flixel.FlxObject;
 
 import lime.app.Application;
+
 import alphabet.Alphabet;
 import base.ClientPrefs;
 import base.CoolUtil;
@@ -22,15 +23,7 @@ using StringTools;
 
 class MainMenuState extends FlxState
 {
-	var options:Array<String> = [];
-	var optionsOG:Array<String> = ['Play', 'Instructions', 'Gallery', 'Credits', 'Options', 'Exit'];
-	var optionsEN:Array<String> = ['Play', 'Instructions', 'Gallery', 'Credits', 'Options', 'Exit'];
-	var optionsES:Array<String> = ['Jugar', 'Instrucciones', 'Galería', 'Créditos', 'Opciones', 'Salida'];
-	var optionsFR:Array<String> = ['Jouer', 'Mode d\'emploi', 'Galerie', 'Crédits', 'Choix', 'Sortie'];
-	var optionsIT:Array<String> = ['Giocare', 'Instruzioni', 'Galleria', 'Crediti', 'Opzioni', 'Uscita'];
-	var optionsPTbr:Array<String> = ['Jogue', 'Instruções', 'Galeria', 'Os críticos', 'Opções', 'Saída'];
-	var optionsPTpt:Array<String> = ['Jogar', 'Instruções', 'Galeria', 'Créditos', 'Opções', 'Saída'];
-	var optionsRU:Array<String> = ['Играть', 'Инструкции', 'Галерея', 'Кредиты', 'Параметры', 'Выход'];
+	var options:Array<String> = ['Play', 'Instructions', 'Gallery', 'Credits', 'Options', 'Exit'];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
@@ -40,17 +33,17 @@ class MainMenuState extends FlxState
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
-			case 'Play' | 'Jugar' | 'Jouer' | 'Giocare' | 'Jogue' | 'Jogar' | 'Играть':
+			case 'Play':
 				FlxG.switchState(new states.PlayState());
-			case 'Instructions' | 'Instrucciones' | 'Mode d\'emploi' | 'Instruzioni' | 'Instruções' | 'Инструкции':
+			case 'Instructions':
 				FlxG.switchState(new states.InstructionsState());
-			case 'Gallery' | 'Galería' | 'Galerie' | 'Galleria' | 'Galeria' | 'Галерея':
+			case 'Gallery':
 				FlxG.switchState(new states.GalleryState());
-			case 'Credits' | 'Créditos' | 'Crédits' | 'Crediti' | 'Os críticos' | 'Кредиты':
+			case 'Credits':
 				FlxG.switchState(new states.CreditsState());
-			case 'Options' | 'Opciones' | 'Choix' | 'Opzioni' | 'Opções' | 'Параметры':
+			case 'Options':
 				openSubState(new substates.OptionsSubState());
-			case 'Exit' | 'Salida' | 'Sortie' | 'Uscita' | 'Saída' | 'Выход':
+			case 'Exit':
 				quitGame();
 		}
 	}
@@ -66,32 +59,6 @@ class MainMenuState extends FlxState
 
 	override function create() 
 	{
-		switch (ClientPrefs.lang)
-		{
-			case 'en-US':
-				options = optionsEN;
-			
-			case 'es-ES':
-				options = optionsES;
-
-			case 'fr-FR':
-				options = optionsFR;
-
-			case 'it-IT':
-				options = optionsIT;
-
-			case 'pt-BR':
-				options = optionsPTbr;
-
-			case 'pt-PT':
-				options = optionsPTpt;
-				
-			case 'ru-RU':
-				options = optionsRU;
-
-			default:
-				options = optionsOG;
-		}
 		camMain = new FlxCamera();
 
 		FlxG.cameras.reset(camMain);
@@ -101,6 +68,7 @@ class MainMenuState extends FlxState
 		camFollowPos = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 		add(camFollowPos);
+		
 		FlxG.camera.follow(camFollowPos, null, 1);
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (options.length - 4)), 0.1);
@@ -175,13 +143,22 @@ class MainMenuState extends FlxState
 
 		if (FlxG.keys.justPressed.ENTER) {
 			FlxG.sound.play(Paths.sound('selection'));
-			grpOptions.forEach(function(grpOptions:Alphabet)
-			{
-				FlxFlicker.flicker(grpOptions, 2, 0.06, false, false, function(flick:FlxFlicker)
+			if (ClientPrefs.flashing) {
+				grpOptions.forEach(function(grpOptions:Alphabet)
 				{
-					openSelectedSubstate(options[curSelected]);
+					FlxFlicker.flicker(grpOptions, 2, 0.06, false, false, function(flick:FlxFlicker)
+					{
+						openSelectedSubstate(options[curSelected]);
+					});
 				});
-			});
+			} else {
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
+		    			openSelectedSubstate(options[curSelected]);
+	    			}, false);
+				});
+			}
 		}
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -195,6 +172,7 @@ class MainMenuState extends FlxState
 
             		if (gamepad.justPressed.A) {
                 		FlxG.sound.play(Paths.sound('selection'));
+			if (ClientPrefs.flashing) {
 				grpOptions.forEach(function(grpOptions:Alphabet)
 				{
 					FlxFlicker.flicker(grpOptions, 2, 0.06, false, false, function(flick:FlxFlicker)
@@ -202,6 +180,14 @@ class MainMenuState extends FlxState
 						openSelectedSubstate(options[curSelected]);
 					});
 				});
+			} else {
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
+		    			openSelectedSubstate(options[curSelected]);
+	    			}, false);
+				});
+			}
             		}
 		} else {
             		trace("oops! no controller detected!");
