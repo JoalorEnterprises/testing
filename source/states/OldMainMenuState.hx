@@ -3,6 +3,7 @@ package states;
 import base.Menu;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxSubState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.app.Application;
@@ -10,11 +11,10 @@ import lime.app.Application;
 class OldMainMenuState extends Menu
 {
 	public static var gameVer:String = '1.2.0b';
-	var bg:FlxSprite;
 
 	override public function create()
 	{
-		bg = new FlxSprite().loadGraphic(Paths.image('titleBG'));
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('titleBG'));
 		add(bg);
 
 		// Create menu
@@ -24,7 +24,7 @@ class OldMainMenuState extends Menu
 			'Instructions', 
 			'Gallery',
 			'Credits',
-			'Options'
+			'Options',
 			'Exit'
 		];
 		Menu.includeExitBtn = false;
