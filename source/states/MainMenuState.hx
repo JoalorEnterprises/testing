@@ -22,14 +22,15 @@ using StringTools;
 
 class MainMenuState extends FlxState
 {
-	var options:Array<String> = [
-		'Play', 
-		'Instructions', 
-		'Gallery',
-		'Credits',
-		'Options',
-		'Exit'
-	];
+	var options:Array<String> = [];
+	var optionsOG:Array<String> = ['Play', 'Instructions', 'Gallery', 'Credits', 'Options', 'Exit'];
+	var optionsEN:Array<String> = ['Play', 'Instructions', 'Gallery', 'Credits', 'Options', 'Exit'];
+	var optionsES:Array<String> = ['Jugar', 'Instrucciones', 'Galería', 'Créditos', 'Opciones', 'Salida'];
+	var optionsFR:Array<String> = ['Jouer', 'Mode d\'emploi', 'Galerie', 'Crédits', 'Choix', 'Sortie'];
+	var optionsIT:Array<String> = ['Giocare', 'Instruzioni', 'Galleria', 'Crediti', 'Opzioni', 'Uscita'];
+	var optionsPTbr:Array<String> = ['Jogue', 'Instruções', 'Galeria', 'Os críticos', 'Opções', 'Saída'];
+	var optionsPTpt:Array<String> = ['Jogar', 'Instruções', 'Galeria', 'Créditos', 'Opções', 'Saída'];
+	var optionsRU:Array<String> = ['Играть', 'Инструкции', 'Галерея', 'Кредиты', 'Параметры', 'Выход'];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
@@ -39,17 +40,17 @@ class MainMenuState extends FlxState
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
-			case 'Play':
+			case 'Play' | 'Jugar' | 'Jouer' | 'Giocare' | 'Jogue' | 'Jogar' | 'Играть':
 				FlxG.switchState(new states.PlayState());
-			case 'Instructions':
+			case 'Instructions' | 'Instrucciones' | 'Mode d\'emploi' | 'Instruzioni' | 'Instruções' | 'Инструкции':
 				FlxG.switchState(new states.InstructionsState());
-			case 'Gallery':
+			case 'Gallery' | 'Galería' | 'Galerie' | 'Galleria' | 'Galeria' | 'Галерея':
 				FlxG.switchState(new states.GalleryState());
-			case 'Credits':
+			case 'Credits' | 'Créditos' | 'Crédits' | 'Crediti' | 'Os críticos' | 'Кредиты':
 				FlxG.switchState(new states.CreditsState());
-			case 'Options':
+			case 'Options' | 'Opciones' | 'Choix' | 'Opzioni' | 'Opções' | 'Параметры':
 				openSubState(new substates.OptionsSubState());
-			case 'Exit':
+			case 'Exit' | 'Salida' | 'Sortie' | 'Uscita' | 'Saída' | 'Выход':
 				quitGame();
 		}
 	}
@@ -65,6 +66,32 @@ class MainMenuState extends FlxState
 
 	override function create() 
 	{
+		switch (ClientPrefs.lang)
+		{
+			case 'en-US':
+				options = optionsEN;
+			
+			case 'es-ES':
+				options = optionsES;
+
+			case 'fr-FR':
+				options = optionsFR;
+
+			case 'it-IT':
+				options = optionsIT;
+
+			case 'pt-BR':
+				options = optionsPTbr;
+
+			case 'pt-PT':
+				options = optionsPTpt;
+				
+			case 'ru-RU':
+				options = optionsRU;
+
+			default:
+				options = optionsOG;
+		}
 		camMain = new FlxCamera();
 
 		FlxG.cameras.reset(camMain);
