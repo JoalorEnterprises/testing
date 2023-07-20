@@ -8,6 +8,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.effects.FlxFlicker;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 import flixel.math.FlxMath;
 import flixel.FlxCamera;

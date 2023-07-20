@@ -63,7 +63,7 @@ class OptionsMenu extends FlxSubState
 		add(descBox);
 
 		var size:Int = 16;
-		descText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, "", size);
+		descText = new FlxText(descBox.x, descBox.y + 4, FlxG.width, "", size);
 		descText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		descText.scrollFactor.set();
 		add(descText);
